@@ -1,0 +1,96 @@
+# ============================================================
+#  TimerPlus - Konfiguration
+#  Zeit-Platzhalter in "time-format":
+#    {d} Tage, {h}/{hh} Stunden, {m}/{mm} Minuten, {s}/{ss} Sekunden, {ms} Millisekunden
+#    [ ... ] = optionaler Teil, wird versteckt solange die Zeit kleiner ist
+#              als die groesste Einheit darin (z. B. [{h}:] erst ab 1 Stunde)
+#  In den Designs: {time} = formatierte Zeit, %phase% = animierter Wert (-1..1)
+#  fuer Gradients, z. B. <gradient:#ff0000:#0000ff:%phase%>
+#  Alle Texte nutzen Adventure MiniMessage.
+# ============================================================
+
+# Sprache der Nachrichten (Dateien in plugins/TimerPlus/lang/)
+language: de
+
+display:
+  # actionbar | bossbar | both
+  type: actionbar
+  # Aktualisierung in Ticks. 1-2 = fluessig (Animation/Millisekunden), 20 = nur jede Sekunde
+  update-interval-ticks: 2
+  # Dauer eines Animationszyklus in Ticks
+  animation-period-ticks: 80
+  # Standard-Design (Spieler koennen mit /ptimer design ein eigenes waehlen)
+  design: default
+  # Timer auch anzeigen, wenn er noch nie gestartet wurde
+  show-when-idle: true
+  bossbar:
+    # PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
+    color: WHITE
+    # PROGRESS, NOTCHED_6, NOTCHED_10, NOTCHED_12, NOTCHED_20
+    overlay: PROGRESS
+    # Beim Countdown den Balken mit der Restzeit fuellen
+    countdown-progress: true
+
+rules:
+  # Was passiert, wenn ein Spieler stirbt:
+  # NONE | SPECTATOR | KICK | PAUSE_TIMER | STOP_TIMER | RESET_TIMER
+  death-action: NONE
+  # Regeln nur anwenden, solange der globale Timer laeuft
+  only-while-running: true
+  # Timer pausieren, wenn kein Spieler online ist
+  pause-when-empty: true
+  # ...und automatisch fortsetzen, wenn wieder jemand joint
+  resume-when-player-joins: true
+  # Timer automatisch starten, wenn jemand joint und er noch nicht gestartet wurde
+  auto-start-on-join: false
+  # Nach Serverneustart laufenden Timer automatisch fortsetzen
+  resume-on-startup: false
+
+goals:
+  # Timer stoppt, wenn eines dieser Entities stirbt (Namen wie im Spiel, z. B. wither, warden)
+  entities:
+    - ender_dragon
+  # Timer stoppt, wenn ein Spieler dieses Advancement erhaelt (z. B. minecraft:end/kill_dragon)
+  advancements: []
+
+finish:
+  broadcast: true
+  title: true
+  sound: "minecraft:ui.toast.challenge_complete"
+  # Befehle, die beim Ende des globalen Timers von der Konsole ausgefuehrt werden ({time} = Zeit)
+  commands: []
+
+countdown:
+  # Bei diesen Restsekunden gibt es eine Warnung (Chat + Ton, ab 5 s auch Title)
+  warn-at-seconds: [60, 30, 10, 5, 4, 3, 2, 1]
+  warn-sound: "minecraft:block.note_block.pling"
+
+# Wie oft der Zustand in data.yml gespeichert wird (Sekunden)
+autosave-seconds: 60
+
+designs:
+  default:
+    time-format: "[{d}d ][{h}:]{mm}:{ss}"
+    idle: "<gray>⏸ <white>{time}"
+    running: "<gradient:#55ff55:#55ffff:%phase%><bold>{time}"
+    finished: "<gold><bold>✔ {time}"
+  rainbow:
+    time-format: "[{d}d ][{h}:]{mm}:{ss}"
+    idle: "<gray>{time}"
+    running: "<rainbow:%phase%><bold>{time}"
+    finished: "<gold><bold>{time}"
+  neon:
+    time-format: "[{h}:]{mm}:{ss}"
+    idle: "<dark_gray>[<gray>{time}<dark_gray>]"
+    running: "<dark_gray>[<gradient:#ff00ff:#00ffff:#ff00ff:%phase%><bold>{time}</bold><dark_gray>]"
+    finished: "<dark_gray>[<gold><bold>{time}<dark_gray>]"
+  precise:
+    time-format: "[{h}:]{mm}:{ss}.{ms}"
+    idle: "<gray>{time}"
+    running: "<white>{time}"
+    finished: "<gold>{time}"
+  minimal:
+    time-format: "[{h}:]{mm}:{ss}"
+    idle: "<gray>{time}"
+    running: "<white>{time}"
+    finished: "<gold>{time}"

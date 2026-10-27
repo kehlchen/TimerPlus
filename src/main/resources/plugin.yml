@@ -1,0 +1,26 @@
+name: TimerPlus
+version: '${version}'
+main: dev.timerplus.TimerPlugin
+api-version: '26.3'
+description: Globaler und persoenlicher Timer mit HUD, Designs, Zielen und Regeln
+authors: [TimerPlus]
+commands:
+  timer:
+    description: Globaler Timer
+    usage: /timer help
+  ptimer:
+    description: Persoenlicher Timer
+    usage: /ptimer help
+permissions:
+  timerplus.timer.control:
+    description: Globalen Timer steuern und konfigurieren
+    default: op
+  timerplus.timer.toggle:
+    description: Globalen Timer ein- und ausblenden
+    default: true
+  timerplus.ptimer:
+    description: Persoenlichen Timer nutzen
+    default: true
+  timerplus.bypass:
+    description: Von Timer-Regeln (z. B. Tod-Aktion) ausgenommen
+    default: false
